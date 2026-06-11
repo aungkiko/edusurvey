@@ -31,6 +31,9 @@ try {
     $pdo->exec("ALTER TABLE `response_q9` " . implode(", ", $q9_columns) . ";");
     
     // 3. รันคำสั่ง SQL จาก migration_strategy7.sql
+    // แต่ก่อนอื่น ให้ลบคำถามของยุทธศาสตร์ที่ 7 ที่อาจซ้ำซ้อนออกก่อนเพื่อป้องกันปัญหา
+    $pdo->exec("DELETE FROM `questions` WHERE `strategy_number` = 7;");
+    
     $sqlFile = __DIR__ . '/database/migration_strategy7.sql';
     if (file_exists($sqlFile)) {
         $sql = file_get_contents($sqlFile);
