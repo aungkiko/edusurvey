@@ -22,7 +22,34 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 
-                <!-- Progress Bar -->
+                <!-- Welcome / Instructions Card -->
+                <div id="welcomeCard" class="glass-card mb-4 animate-slide-up">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+                        <h2 class="fw-bold" style="color: var(--primary-color);">คำชี้แจง</h2>
+                    </div>
+                    
+                    <div class="instruction-text px-md-4" style="font-size: 1.1rem; line-height: 1.8;">
+                        <p class="mb-4 text-indent" style="text-indent: 2rem;">
+                            แบบสอบถามนี้จัดทำขึ้นเพื่อสำรวจและประเมินผลการดำเนินงานตามตัวชี้วัดแผนพัฒนาการศึกษาจังหวัดปัตตานี พ.ศ. 2569–2573 ของสำนักงานศึกษาธิการจังหวัดปัตตานี ข้อมูลและความคิดเห็นของท่านจะมีคุณค่าอย่างยิ่งในการวิเคราะห์สภาพการดำเนินงาน รับทราบปัญหาและอุปสรรค ตลอดจนนำผลที่ได้ไปใช้เป็นแนวทางในการพัฒนา ปรับปรุง และยกระดับคุณภาพการศึกษาในจังหวัดปัตตานีให้มีประสิทธิภาพสูงสุด
+                        </p>
+                        <p class="mb-4 text-indent" style="text-indent: 2rem;">
+                            <i class="bi bi-shield-lock-fill text-success me-2"></i>ข้อมูลส่วนบุคคลของท่านจะถูกเก็บรักษาไว้เป็นความลับ และนำเสนอผลในภาพรวมเพื่อประโยชน์ทางวิชาการและการบริหารจัดการศึกษาเท่านั้น
+                        </p>
+                    </div>
+                    
+                    <div class="text-center mt-5">
+                        <button type="button" id="startSurveyBtn" class="btn btn-primary btn-lg px-5 py-3 shadow-sm" style="border-radius: 50px; font-weight: bold; font-size: 1.2rem;">
+                            เริ่มตอบแบบสอบถาม <i class="bi bi-arrow-right-circle ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Form Container (Hidden initially) -->
+                <div id="surveyContainer" style="display: none;">
+                    <!-- Progress Bar -->
                 <div class="glass-card mb-4 animate-slide-up">
                     <div class="progress-steps">
                         <div class="step-indicator active" data-step="0">
@@ -739,10 +766,29 @@
                             </button>
                         </div>
                     </div>
+                    </div>
                 </form>
+                </div> <!-- End surveyContainer -->
             </div>
         </div>
     </div>
 </section>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const startBtn = document.getElementById('startSurveyBtn');
+    const welcomeCard = document.getElementById('welcomeCard');
+    const surveyContainer = document.getElementById('surveyContainer');
+
+    if(startBtn) {
+        startBtn.addEventListener('click', function() {
+            welcomeCard.style.display = 'none';
+            surveyContainer.style.display = 'block';
+            window.scrollTo({ top: surveyContainer.offsetTop - 100, behavior: 'smooth' });
+        });
+    }
+});
+</script>
+
 <script src="<?= BASE_URL ?>assets/js/survey-form.js"></script>
+
