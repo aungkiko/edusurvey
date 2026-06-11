@@ -81,6 +81,7 @@ CREATE TABLE `survey_responses` (
     `respondent_position` VARCHAR(150) NULL COMMENT 'ตำแหน่งผู้ตอบ',
     `respondent_phone` VARCHAR(20) NULL,
     `budget_year` INT NOT NULL COMMENT 'ปีงบประมาณ พ.ศ.',
+    `is_innovation_area` ENUM('yes','no') NULL DEFAULT NULL COMMENT 'เป็นพื้นที่นวัตกรรมทางการศึกษาหรือไม่',
     `status` ENUM('draft','submitted','approved','rejected') NOT NULL DEFAULT 'submitted',
     `submitted_at` DATETIME NULL,
     `approved_by` INT NULL,

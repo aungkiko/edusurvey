@@ -166,6 +166,26 @@
                                 </div>
                             </div>
                             
+                            <?php if ($stratNum == 7): ?>
+                            <div class="question-block bg-light border-success mb-4" style="border-left: 4px solid var(--success-color);">
+                                <div class="question-body">
+                                    <label class="form-label-custom fs-5 text-dark">สถานศึกษาของท่านเป็นสถานศึกษาในพื้นที่นวัตกรรมทางการศึกษาหรือไม่ <span class="text-danger">*</span></label>
+                                    <div class="mt-2">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="is_innovation_area" id="inno_yes" value="yes" required onchange="toggleInnovationQuestions(this.value)">
+                                            <label class="form-check-label fw-bold text-success" for="inno_yes">ใช่</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="is_innovation_area" id="inno_no" value="no" required onchange="toggleInnovationQuestions(this.value)">
+                                            <label class="form-check-label fw-bold text-danger" for="inno_no">ไม่ใช่</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="innovation_questions_container" style="display: none;">
+                            <?php endif; ?>
+
                             <?php foreach ($strategy['questions'] as $q): ?>
                             <div class="question-block" id="question-<?= $q['question_number'] ?>">
                                 <div class="question-header">
@@ -466,19 +486,24 @@
                                             <label class="form-label-custom fw-semibold">โรงเรียนมีระดับชั้นใดบ้าง? <span class="text-danger">*</span> <small class="text-muted fw-normal">(เลือกได้หลายข้อ)</small></label>
                                             <div class="d-flex gap-4 mt-1 flex-wrap">
                                                 <label class="checkbox-custom">
-                                                    <input type="checkbox" id="q9_has_mattayom" name="q9_has_mattayom" value="1" onchange="toggleQ9Level('mattayom', this.checked)">
+                                                    <input type="checkbox" id="q9_has_mattayom" name="q9_has_mattayom" value="1" onchange="toggleQ9Level('mattayom', this.checked); uncheckQ9None();">
                                                     <span class="checkmark"></span>
                                                     ม.ปลาย
                                                 </label>
                                                 <label class="checkbox-custom">
-                                                    <input type="checkbox" id="q9_has_vocational" name="q9_has_vocational" value="1" onchange="toggleQ9Level('vocational', this.checked)">
+                                                    <input type="checkbox" id="q9_has_vocational" name="q9_has_vocational" value="1" onchange="toggleQ9Level('vocational', this.checked); uncheckQ9None();">
                                                     <span class="checkmark"></span>
                                                     อาชีวศึกษา
                                                 </label>
                                                 <label class="checkbox-custom">
-                                                    <input type="checkbox" id="q9_has_associate" name="q9_has_associate" value="1" onchange="toggleQ9Level('associate', this.checked)">
+                                                    <input type="checkbox" id="q9_has_associate" name="q9_has_associate" value="1" onchange="toggleQ9Level('associate', this.checked); uncheckQ9None();">
                                                     <span class="checkmark"></span>
                                                     อนุปริญญา
+                                                </label>
+                                                <label class="checkbox-custom">
+                                                    <input type="checkbox" id="q9_has_none" name="q9_has_none" value="1" onchange="toggleQ9None(this.checked)">
+                                                    <span class="checkmark"></span>
+                                                    ไม่มี ม.ปลาย/อาชีวศึกษา/อนุปริญญา
                                                 </label>
                                             </div>
                                         </div>
@@ -548,35 +573,67 @@
                                     </div>
 
                                     <!-- ผลรวม + หมายเหตุ -->
-                                    <div class="row g-3 mt-1">
-                                        <div class="col-md-4">
-                                            <label class="form-label-custom text-muted">รวม: ผู้เรียนที่มีรายได้ทุกระดับ (คน)</label>
-                                            <input type="number" class="form-control form-control-custom bg-light" id="q9_sum_income" name="q9_students" min="0" readonly>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label-custom text-muted">รวม: ผู้เรียนทั้งหมดทุกระดับ (คน)</label>
-                                            <input type="number" class="form-control form-control-custom bg-light" id="q9_sum_total" name="q9_total_students" min="0" readonly>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label-custom text-muted">ร้อยละรวม (คำนวณอัตโนมัติ)</label>
-                                            <input type="text" class="form-control form-control-custom bg-light" id="calc-q9" readonly placeholder="0.00%">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label-custom">รูปแบบการมีรายได้</label>
-                                            <select class="form-select form-control-custom" name="q9_income_type">
-                                                <option value="">-- กรุณาเลือก --</option>
-                                                <?php foreach (INCOME_TYPES as $key => $label): ?>
-                                                <option value="<?= $key ?>"><?= $label ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label-custom">หมายเหตุ</label>
-                                            <textarea class="form-control form-control-custom" name="q9_notes" rows="2" placeholder="ระบุรายละเอียดเพิ่มเติม..."></textarea>
+                                    <div id="q9_rest_container">
+                                        <div class="row g-3 mt-1">
+                                            <div class="col-md-4">
+                                                <label class="form-label-custom text-muted">รวม: ผู้เรียนที่มีรายได้ทุกระดับ (คน)</label>
+                                                <input type="number" class="form-control form-control-custom bg-light" id="q9_sum_income" name="q9_students" min="0" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label-custom text-muted">รวม: ผู้เรียนทั้งหมดทุกระดับ (คน)</label>
+                                                <input type="number" class="form-control form-control-custom bg-light" id="q9_sum_total" name="q9_total_students" min="0" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label-custom text-muted">ร้อยละรวม (คำนวณอัตโนมัติ)</label>
+                                                <input type="text" class="form-control form-control-custom bg-light" id="calc-q9" readonly placeholder="0.00%">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label-custom">รูปแบบการมีรายได้</label>
+                                                <select class="form-select form-control-custom" name="q9_income_type">
+                                                    <option value="">-- กรุณาเลือก --</option>
+                                                    <?php foreach (INCOME_TYPES as $key => $label): ?>
+                                                    <option value="<?= $key ?>"><?= $label ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label-custom">หมายเหตุ</label>
+                                                <textarea class="form-control form-control-custom" name="q9_notes" rows="2" placeholder="ระบุรายละเอียดเพิ่มเติม..."></textarea>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <script>
+                                    function toggleQ9None(checked) {
+                                        var container = document.getElementById('q9_rest_container');
+                                        var inputs = container.querySelectorAll('input, select, textarea');
+                                        if (checked) {
+                                            // Uncheck other options
+                                            ['mattayom', 'vocational', 'associate'].forEach(function(level) {
+                                                var cb = document.getElementById('q9_has_' + level);
+                                                if (cb && cb.checked) {
+                                                    cb.checked = false;
+                                                    toggleQ9Level(level, false);
+                                                }
+                                            });
+                                            // Hide the rest container
+                                            container.style.display = 'none';
+                                            // Clear values
+                                            inputs.forEach(function(inp) {
+                                                inp.value = '';
+                                                inp.classList.remove('is-invalid');
+                                            });
+                                        } else {
+                                            container.style.display = 'block';
+                                        }
+                                    }
+                                    function uncheckQ9None() {
+                                        var noneCb = document.getElementById('q9_has_none');
+                                        if (noneCb && noneCb.checked) {
+                                            noneCb.checked = false;
+                                            toggleQ9None(false);
+                                        }
+                                    }
                                     function toggleQ9Level(level, show) {
                                         var section = document.getElementById('q9_section_' + level);
                                         var inputs = document.querySelectorAll('.q9-' + level + '-input');
@@ -748,6 +805,33 @@
                                 </div>
                             </div>
                             <?php endforeach; ?>
+
+                            <?php if ($stratNum == 7): ?>
+                            </div> <!-- End innovation_questions_container -->
+                            <script>
+                            function toggleInnovationQuestions(val) {
+                                const container = document.getElementById('innovation_questions_container');
+                                const inputs = container.querySelectorAll('input, select, textarea');
+                                
+                                if (val === 'yes') {
+                                    container.style.display = 'block';
+                                    // Re-enable required attributes if they had them (we'll handle validation in survey-form.js)
+                                } else {
+                                    container.style.display = 'none';
+                                    // Clear values when hiding
+                                    inputs.forEach(inp => {
+                                        if (inp.type === 'radio' || inp.type === 'checkbox') {
+                                            inp.checked = false;
+                                        } else {
+                                            inp.value = '';
+                                        }
+                                        inp.classList.remove('is-invalid');
+                                    });
+                                }
+                            }
+                            </script>
+                            <?php endif; ?>
+
                         </div>
                     </div>
                     <?php $stepIndex++; endforeach; ?>

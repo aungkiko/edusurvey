@@ -6,6 +6,13 @@
 SET NAMES utf8mb4;
 
 -- ===================================================
+-- อัปเดตตาราง survey_responses
+-- ===================================================
+-- เพิ่มคอลัมน์พื้นที่นวัตกรรม (ยุทธศาสตร์ที่ 7)
+ALTER TABLE `survey_responses` 
+ADD COLUMN IF NOT EXISTS `is_innovation_area` ENUM('yes','no') NULL DEFAULT NULL COMMENT 'เป็นพื้นที่นวัตกรรมทางการศึกษาหรือไม่' AFTER `budget_year`;
+
+-- ===================================================
 -- เพิ่ม display_number column ใน questions table
 -- (ใช้สำหรับแสดงหมายเลขข้อในหน้าจอ แยกจาก question_number ที่ใช้ใน DB)
 -- ===================================================

@@ -13,6 +13,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// --- Timezone Setup ---
+date_default_timezone_set('Asia/Bangkok');
+
 // --- Define Base Path ---
 define('BASE_PATH', __DIR__ . '/');
 define('BASE_URL', '/edusurvey/');

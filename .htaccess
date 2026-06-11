@@ -4,7 +4,10 @@
 # ===================================================
 
 RewriteEngine On
-RewriteBase /
+# สำหรับรันบนเครื่องตัวเอง (XAMPP) ใช้ /edusurvey/
+RewriteBase /edusurvey/
+# สำหรับเซิร์ฟเวอร์จริง (Plesk) ให้เปลี่ยนเป็น /
+# RewriteBase /
 
 # --- Security Headers ---
 <IfModule mod_headers.c>
@@ -30,8 +33,8 @@ RewriteRule ^models/ - [F,L]
 RewriteRule ^database/ - [F,L]
 
 # --- Allow direct access to assets ---
-RewriteCond %{REQUEST_URI} ^/assets/ [OR]
-RewriteCond %{REQUEST_URI} ^/uploads/
+RewriteCond %{REQUEST_URI} assets/ [OR]
+RewriteCond %{REQUEST_URI} uploads/
 RewriteRule ^ - [L]
 
 # --- Route all requests through index.php ---

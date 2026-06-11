@@ -59,7 +59,21 @@ document.addEventListener('DOMContentLoaded', () => {
         let isValid = true;
 
         currentInputs.forEach(input => {
-            if (!input.value.trim()) {
+            // Skip validation for hidden inputs (e.g. inside hidden containers)
+            if (input.offsetParent === null && input.type !== 'hidden') {
+                input.classList.remove('is-invalid');
+                return;
+            }
+            
+            if (input.type === 'radio' || input.type === 'checkbox') {
+                // Radio/Checkbox group validation
+                const name = input.name;
+                const checked = steps[currentStep].querySelector(`input[name="${name}"]:checked`);
+                if (!checked) {
+                    isValid = false;
+                    // Find container to add invalid class if needed
+                }
+            } else if (!input.value.trim()) {
                 isValid = false;
                 input.classList.add('is-invalid');
             } else {
@@ -70,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Custom Q12 validation
         const q12HasInnovations = steps[currentStep].querySelector('#q12_has_innovations');
         let q12Failed = false;
-        if (q12HasInnovations && q12HasInnovations.value === 'yes') {
+        if (q12HasInnovations && q12HasInnovations.offsetParent !== null && q12HasInnovations.value === 'yes') {
             const q12Inputs = steps[currentStep].querySelectorAll('.q12-detail-input');
             let sum = 0;
             q12Inputs.forEach(inp => {

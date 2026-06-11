@@ -87,6 +87,7 @@ class HomeController extends Controller
                 'respondent_position' => Validator::sanitize($_POST['respondent_position'] ?? ''),
                 'respondent_phone' => Validator::sanitize($_POST['respondent_phone'] ?? ''),
                 'budget_year' => $year,
+                'is_innovation_area' => in_array($_POST['is_innovation_area'] ?? '', ['yes', 'no']) ? $_POST['is_innovation_area'] : null,
                 'status' => 'submitted',
                 'submitted_at' => date('Y-m-d H:i:s'),
                 'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
@@ -240,23 +241,25 @@ class HomeController extends Controller
             'notes' => Validator::sanitize($_POST['q10_notes'] ?? ''),
         ];
         
+        $isInnovationArea = in_array($_POST['is_innovation_area'] ?? '', ['yes', 'no']) ? $_POST['is_innovation_area'] : null;
+        
         // ข้อ 11: จำนวนหุ้นส่วนความร่วมมือ (ยุทธศาสตร์ที่ 7)
         $data[11] = [
-            'partnership_count' => Validator::sanitizeInt($_POST['q11_partnership_count'] ?? 0),
-            'notes' => Validator::sanitize($_POST['q11_notes'] ?? ''),
+            'partnership_count' => $isInnovationArea === 'yes' ? Validator::sanitizeInt($_POST['q11_partnership_count'] ?? 0) : 0,
+            'notes' => $isInnovationArea === 'yes' ? Validator::sanitize($_POST['q11_notes'] ?? '') : '',
         ];
         
         // ข้อ 12: จำนวนนวัตกรรมที่ใช้จริง (ยุทธศาสตร์ที่ 7)
         $hasInnovations = in_array($_POST['q12_has_innovations'] ?? '', ['yes', 'no']) ? $_POST['q12_has_innovations'] : 'no';
         $data[12] = [
-            'has_innovations' => $hasInnovations,
-            'curriculum_count'  => $hasInnovations === 'yes' ? Validator::sanitizeInt($_POST['q12_curriculum'] ?? 0) : 0,
-            'teaching_count'    => $hasInnovations === 'yes' ? Validator::sanitizeInt($_POST['q12_teaching'] ?? 0) : 0,
-            'media_count'       => $hasInnovations === 'yes' ? Validator::sanitizeInt($_POST['q12_media'] ?? 0) : 0,
-            'assessment_count'  => $hasInnovations === 'yes' ? Validator::sanitizeInt($_POST['q12_assessment'] ?? 0) : 0,
-            'management_count'  => $hasInnovations === 'yes' ? Validator::sanitizeInt($_POST['q12_management'] ?? 0) : 0,
-            'other_count'       => $hasInnovations === 'yes' ? Validator::sanitizeInt($_POST['q12_other'] ?? 0) : 0,
-            'notes' => Validator::sanitize($_POST['q12_notes'] ?? ''),
+            'has_innovations' => $isInnovationArea === 'yes' ? $hasInnovations : 'no',
+            'curriculum_count'  => ($isInnovationArea === 'yes' && $hasInnovations === 'yes') ? Validator::sanitizeInt($_POST['q12_curriculum'] ?? 0) : 0,
+            'teaching_count'    => ($isInnovationArea === 'yes' && $hasInnovations === 'yes') ? Validator::sanitizeInt($_POST['q12_teaching'] ?? 0) : 0,
+            'media_count'       => ($isInnovationArea === 'yes' && $hasInnovations === 'yes') ? Validator::sanitizeInt($_POST['q12_media'] ?? 0) : 0,
+            'assessment_count'  => ($isInnovationArea === 'yes' && $hasInnovations === 'yes') ? Validator::sanitizeInt($_POST['q12_assessment'] ?? 0) : 0,
+            'management_count'  => ($isInnovationArea === 'yes' && $hasInnovations === 'yes') ? Validator::sanitizeInt($_POST['q12_management'] ?? 0) : 0,
+            'other_count'       => ($isInnovationArea === 'yes' && $hasInnovations === 'yes') ? Validator::sanitizeInt($_POST['q12_other'] ?? 0) : 0,
+            'notes' => $isInnovationArea === 'yes' ? Validator::sanitize($_POST['q12_notes'] ?? '') : '',
         ];
         
         return $data;
