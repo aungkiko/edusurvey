@@ -4,9 +4,8 @@
 # ===================================================
 
 RewriteEngine On
-# สำหรับรันบนเครื่องตัวเอง (XAMPP) ใช้ /edusurvey/
-RewriteBase /edusurvey/
-# สำหรับเซิร์ฟเวอร์จริง (Plesk) ให้เปลี่ยนเป็น /
+# เราปิด RewriteBase ไว้ เพื่อให้ Apache อ้างอิงโฟลเดอร์ปัจจุบันอัตโนมัติ 
+# ซึ่งจะทำให้ใช้ได้ทั้ง Local (XAMPP) และ Server จริง (Plesk) โดยไม่ต้องแก้ไปมา
 # RewriteBase /
 
 # --- Security Headers ---

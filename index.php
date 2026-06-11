@@ -18,7 +18,10 @@ date_default_timezone_set('Asia/Bangkok');
 
 // --- Define Base Path ---
 define('BASE_PATH', __DIR__ . '/');
-define('BASE_URL', '/edusurvey/');
+
+// --- Dynamic Base URL ---
+$scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+define('BASE_URL', $scriptDir === '/' ? '/' : $scriptDir . '/');
 
 // --- Load Configuration ---
 require_once BASE_PATH . 'config/app.php';
