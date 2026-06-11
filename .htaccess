@@ -4,7 +4,7 @@
 # ===================================================
 
 RewriteEngine On
-RewriteBase /edusurvey/
+RewriteBase /
 
 # --- Security Headers ---
 <IfModule mod_headers.c>
@@ -30,23 +30,14 @@ RewriteRule ^models/ - [F,L]
 RewriteRule ^database/ - [F,L]
 
 # --- Allow direct access to assets ---
-RewriteCond %{REQUEST_URI} ^/edusurvey/assets/ [OR]
-RewriteCond %{REQUEST_URI} ^/edusurvey/uploads/
+RewriteCond %{REQUEST_URI} ^/assets/ [OR]
+RewriteCond %{REQUEST_URI} ^/uploads/
 RewriteRule ^ - [L]
 
 # --- Route all requests through index.php ---
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-
-# --- PHP Settings ---
-<IfModule mod_php.c>
-    php_value upload_max_filesize 10M
-    php_value post_max_size 12M
-    php_value max_execution_time 60
-    php_value session.cookie_httponly 1
-    php_value session.use_only_cookies 1
-</IfModule>
 
 # --- Enable compression ---
 <IfModule mod_deflate.c>
