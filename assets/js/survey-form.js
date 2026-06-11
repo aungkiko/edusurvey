@@ -114,6 +114,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: false });
     });
 
+    // Prevent Form Submission on Enter key and trigger Next step instead
+    form.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            if (currentStep < totalSteps - 1) {
+                if (nextBtn) nextBtn.click();
+            } else {
+                if (submitBtn) submitBtn.click();
+            }
+        }
+    });
+
     // Next/Prev Events
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
@@ -172,10 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const num = parseFloat(numInput.value) || 0;
                 const den = parseFloat(denInput.value) || 0;
                 
-                // ถ้ายอดรวมน้อยกว่าจำนวนที่พัฒนา ปรับให้เท่ากัน
-                if (num > den && this.dataset.role === 'numerator') {
-                    denInput.value = num;
-                }
                 
                 const finalDen = parseFloat(denInput.value) || 0;
                 

@@ -7,12 +7,6 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
--- สร้างฐานข้อมูล
-CREATE DATABASE IF NOT EXISTS `edusurvey_db` 
-  CHARACTER SET utf8mb4 
-  COLLATE utf8mb4_unicode_ci;
-
-USE `edusurvey_db`;
 
 -- ===================================================
 -- ตาราง users (ผู้ดูแลระบบ)
