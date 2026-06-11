@@ -1,0 +1,64 @@
+# ===================================================
+# EduSurvey - URL Rewriting & Security Headers
+# แผนพัฒนาการศึกษาจังหวัดปัตตานี พ.ศ. 2569-2573
+# ===================================================
+
+RewriteEngine On
+RewriteBase /edusurvey/
+
+# --- Security Headers ---
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- Prevent directory listing ---
+Options -Indexes
+
+# --- Protect sensitive files ---
+<FilesMatch "\.(sql|log|env|md)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# --- Protect config and core directories ---
+RewriteRule ^config/ - [F,L]
+RewriteRule ^core/ - [F,L]
+RewriteRule ^models/ - [F,L]
+RewriteRule ^database/ - [F,L]
+
+# --- Allow direct access to assets ---
+RewriteCond %{REQUEST_URI} ^/edusurvey/assets/ [OR]
+RewriteCond %{REQUEST_URI} ^/edusurvey/uploads/
+RewriteRule ^ - [L]
+
+# --- Route all requests through index.php ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# --- PHP Settings ---
+<IfModule mod_php.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 12M
+    php_value max_execution_time 60
+    php_value session.cookie_httponly 1
+    php_value session.use_only_cookies 1
+</IfModule>
+
+# --- Enable compression ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
+</IfModule>
+
+# --- Browser caching ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>

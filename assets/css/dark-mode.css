@@ -1,0 +1,136 @@
+/* ===================================================
+   EduSurvey - Dark Mode Styles
+   =================================================== */
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --surface-color: rgba(30, 30, 30, 0.85);
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    
+    --glass-bg: rgba(30, 30, 30, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    
+    --moe-green-dark: #81C784; /* Lighter green for dark mode text */
+}
+
+[data-theme="dark"] body {
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(129, 199, 132, 0.05), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(249, 168, 37, 0.05), transparent 25%);
+}
+
+/* Base Adjustments */
+[data-theme="dark"] .navbar-custom,
+[data-theme="dark"] .footer-custom,
+[data-theme="dark"] .admin-sidebar,
+[data-theme="dark"] .admin-topbar,
+[data-theme="dark"] .login-card {
+    background: rgba(30, 30, 30, 0.9);
+    border-color: var(--glass-border);
+}
+
+[data-theme="dark"] .form-control-custom,
+[data-theme="dark"] .form-select.form-control-custom {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: var(--glass-border);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-control-custom:focus {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: var(--moe-green);
+    color: #fff;
+}
+
+[data-theme="dark"] .form-control-custom::placeholder {
+    color: #666;
+}
+
+[data-theme="dark"] .bg-light {
+    background-color: rgba(255,255,255,0.05) !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .card-title-custom,
+[data-theme="dark"] .form-label-custom {
+    color: var(--moe-green-dark);
+}
+
+[data-theme="dark"] .question-block {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--glass-border);
+}
+
+/* Tables */
+[data-theme="dark"] .table {
+    color: var(--text-primary);
+    border-color: var(--glass-border);
+}
+
+[data-theme="dark"] .table-light th,
+[data-theme="dark"] .table-light td {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+    border-color: var(--glass-border);
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+    color: var(--text-primary);
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* Accordion */
+[data-theme="dark"] .accordion-button {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+}
+[data-theme="dark"] .accordion-button:not(.collapsed) {
+    background-color: rgba(27, 94, 32, 0.2);
+    color: #81C784;
+}
+[data-theme="dark"] .accordion-item {
+    background-color: transparent;
+    border-color: var(--glass-border);
+}
+
+/* Checkmarks */
+[data-theme="dark"] .checkmark {
+    background-color: rgba(0,0,0,0.5);
+    border-color: #555;
+}
+
+/* Charts Background Fix */
+[data-theme="dark"] canvas {
+    filter: invert(0.9) hue-rotate(180deg) contrast(1.1); /* Quick fix for dark charts */
+}
+
+/* Pagination */
+[data-theme="dark"] .page-link {
+    background-color: rgba(30, 30, 30, 0.8);
+    border-color: var(--glass-border);
+    color: var(--text-primary);
+}
+[data-theme="dark"] .page-item.active .page-link {
+    background-color: var(--moe-green);
+    border-color: var(--moe-green);
+}
+[data-theme="dark"] .page-item.disabled .page-link {
+    background-color: rgba(0,0,0,0.2);
+    color: #555;
+}
+
+/* DataTables elements */
+[data-theme="dark"] .dataTables_wrapper .dataTables_length select,
+[data-theme="dark"] .dataTables_wrapper .dataTables_filter input {
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    border: 1px solid var(--glass-border);
+}
+[data-theme="dark"] .dataTables_wrapper .dataTables_info {
+    color: var(--text-secondary);
+}
