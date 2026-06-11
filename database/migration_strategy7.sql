@@ -49,11 +49,13 @@ CREATE TABLE IF NOT EXISTS `response_q11` (
 CREATE TABLE IF NOT EXISTS `response_q12` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `response_id` INT NOT NULL,
+    `has_innovations` ENUM('yes','no') NOT NULL DEFAULT 'no' COMMENT 'มีการใช้นวัตกรรมหรือไม่',
     `curriculum_count` INT NOT NULL DEFAULT 0 COMMENT 'นวัตกรรมด้านหลักสูตร (เรื่อง)',
     `teaching_count` INT NOT NULL DEFAULT 0 COMMENT 'นวัตกรรมการจัดการเรียนการสอน (เรื่อง)',
     `media_count` INT NOT NULL DEFAULT 0 COMMENT 'นวัตกรรมด้านสื่อและแหล่งเรียนรู้ (เรื่อง)',
     `assessment_count` INT NOT NULL DEFAULT 0 COMMENT 'นวัตกรรมด้านการวัดและประเมินผล (เรื่อง)',
     `management_count` INT NOT NULL DEFAULT 0 COMMENT 'นวัตกรรมด้านการบริหารจัดการสถานศึกษา (เรื่อง)',
+    `other_count` INT NOT NULL DEFAULT 0 COMMENT 'นวัตกรรมด้านอื่นๆ (เรื่อง)',
     `notes` TEXT NULL COMMENT 'หมายเหตุ',
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY `uq_response` (`response_id`),
