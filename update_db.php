@@ -16,6 +16,32 @@ try {
     // 1. เพิ่มคอลัมน์ is_innovation_area ถ้ายังไม่มี
     $pdo->exec("ALTER TABLE `survey_responses` ADD COLUMN IF NOT EXISTS `is_innovation_area` ENUM('yes','no') NULL DEFAULT NULL COMMENT 'เป็นพื้นที่นวัตกรรมทางการศึกษาหรือไม่' AFTER `budget_year`;");
     
+    // 2. รันคำสั่ง SQL จาก migration_strategy7.sql
+    $sqlFile = __DIR__ . '/database/migration_strategy7.sql';
+    if (file_exists($sqlFile)) {
+        $sql = file_get_contents($sqlFile);
+        
+        // Split by semicolon and execute individually to bypass duplicate errors
+        $statements = array_filter(array_map('trim', explode(';', $sql)));
+        foreach ($statements as $stmt) {
+            if (empty($stmt)) continue;
+            try {
+                $pdo->exec($stmt);
+            } catch (PDOException $e) {
+                // Ignore duplicate column/table/key errors
+                $errorCode = $e->getCode();
+                $mysqlCode = $e->errorInfo[1] ?? 0;
+                if (!in_array($mysqlCode, [1050, 1060, 1061, 1062])) {
+                    // 1050: Table exists, 1060: Duplicate column, 1061: Duplicate key name, 1062: Duplicate entry
+                    echo "<p style='color:red;'>Warning on query: " . htmlspecialchars($stmt) . "<br>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
+                }
+            }
+        }
+        echo "<p>รันสคริปต์สร้างตารางสำหรับยุทธศาสตร์ที่ 7 สำเร็จ</p>";
+    } else {
+        echo "<p>ไม่พบไฟล์ migration_strategy7.sql</p>";
+    }
+    
     echo "<h1>Database Updated Successfully!</h1>";
     echo "<p>อัปเดตฐานข้อมูลเรียบร้อยแล้ว คอลัมน์ <b>is_innovation_area</b> ถูกเพิ่มสำเร็จ</p>";
     echo "<p>คุณสามารถกลับไปทดสอบส่งแบบสอบถามได้เลยครับ</p>";

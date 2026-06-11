@@ -62,9 +62,7 @@ class HomeController extends Controller
                   ->required('respondent_phone', 'เบอร์โทรศัพท์');
         
         if ($validator->fails()) {
-            Session::flash('error', implode('<br>', $validator->errors()));
-            $this->redirect('');
-            return;
+            die("<h2>Validation Error</h2><p>" . implode('<br>', $validator->errors()) . "</p>");
         }
         
         $year = Validator::sanitizeInt($_POST['budget_year']);
@@ -72,9 +70,7 @@ class HomeController extends Controller
         
         // ตรวจสอบว่าส่งข้อมูลปีนี้แล้วหรือยัง
         if ($this->surveyModel->hasSubmitted($schoolName, $year)) {
-            Session::flash('warning', "โรงเรียน {$schoolName} ได้ส่งข้อมูลสำหรับปี พ.ศ. {$year} แล้ว");
-            $this->redirect('');
-            return;
+            die("<h2>ส่งข้อมูลซ้ำ (Duplicate Submission)</h2><p>โรงเรียน {$schoolName} ได้ส่งข้อมูลสำหรับปี พ.ศ. {$year} แล้ว</p>");
         }
         
         try {
@@ -103,8 +99,14 @@ class HomeController extends Controller
             $this->redirect('survey/success');
             
         } catch (\Exception $e) {
-            Session::flash('error', 'เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' . $e->getMessage());
-            $this->redirect('');
+            // FOR DEBUGGING ONLY: Show the exact error message on screen
+            die("<h2>เกิดข้อผิดพลาดระดับฐานข้อมูล (Database Error)</h2>" .
+                "<p><strong>ข้อความแจ้งเตือน:</strong> " . htmlspecialchars($e->getMessage()) . "</p>" .
+                "<p><strong>ไฟล์:</strong> " . htmlspecialchars($e->getFile()) . " (บรรทัด " . $e->getLine() . ")</p>" .
+                "<p>กรุณาแคปหน้าจอนี้ส่งให้ทีมพัฒนาครับ</p>");
+            
+            // Session::flash('error', 'เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' . $e->getMessage());
+            // $this->redirect('');
         }
     }
     
