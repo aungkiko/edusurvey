@@ -16,7 +16,21 @@ try {
     // 1. เพิ่มคอลัมน์ is_innovation_area ถ้ายังไม่มี
     $pdo->exec("ALTER TABLE `survey_responses` ADD COLUMN IF NOT EXISTS `is_innovation_area` ENUM('yes','no') NULL DEFAULT NULL COMMENT 'เป็นพื้นที่นวัตกรรมทางการศึกษาหรือไม่' AFTER `budget_year`;");
     
-    // 2. รันคำสั่ง SQL จาก migration_strategy7.sql
+    // 2. เพิ่มคอลัมน์สำหรับข้อ 9 (แยกตามระดับชั้น)
+    $q9_columns = [
+        "ADD COLUMN IF NOT EXISTS `has_mattayom_pak` TINYINT(1) NOT NULL DEFAULT 0 AFTER `income_type`",
+        "ADD COLUMN IF NOT EXISTS `mattayom_income` INT NOT NULL DEFAULT 0 AFTER `has_mattayom_pak`",
+        "ADD COLUMN IF NOT EXISTS `mattayom_total` INT NOT NULL DEFAULT 0 AFTER `mattayom_income`",
+        "ADD COLUMN IF NOT EXISTS `has_vocational` TINYINT(1) NOT NULL DEFAULT 0 AFTER `mattayom_total`",
+        "ADD COLUMN IF NOT EXISTS `vocational_income` INT NOT NULL DEFAULT 0 AFTER `has_vocational`",
+        "ADD COLUMN IF NOT EXISTS `vocational_total` INT NOT NULL DEFAULT 0 AFTER `vocational_income`",
+        "ADD COLUMN IF NOT EXISTS `has_associate` TINYINT(1) NOT NULL DEFAULT 0 AFTER `vocational_total`",
+        "ADD COLUMN IF NOT EXISTS `associate_income` INT NOT NULL DEFAULT 0 AFTER `has_associate`",
+        "ADD COLUMN IF NOT EXISTS `associate_total` INT NOT NULL DEFAULT 0 AFTER `associate_income`"
+    ];
+    $pdo->exec("ALTER TABLE `response_q9` " . implode(", ", $q9_columns) . ";");
+    
+    // 3. รันคำสั่ง SQL จาก migration_strategy7.sql
     $sqlFile = __DIR__ . '/database/migration_strategy7.sql';
     if (file_exists($sqlFile)) {
         $sql = file_get_contents($sqlFile);
