@@ -354,12 +354,10 @@
                 </div>
 
                 <!-- Q11 (display: ข้อ 10) - ยุทธศาสตร์ที่ 7: หุ้นส่วนความร่วมมือ -->
-                <div class="accordion-item border-start border-4 border-purple" style="border-color: #6f42c1 !important;">
+                <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#colQ11">
-                            <span class="badge text-white me-2" style="background:#6f42c1;">ข้อ 10</span>
-                            <span class="badge bg-secondary me-2 small">ยุทธ์ 7</span>
-                            หุ้นส่วนความร่วมมือ (ภาครัฐ เอกชน ประชาสังคม)
+                            <span class="badge bg-gold text-dark me-2">ข้อ 10</span> หุ้นส่วนความร่วมมือ (ภาครัฐ เอกชน ประชาสังคม)
                         </button>
                     </h2>
                     <div id="colQ11" class="accordion-collapse collapse" data-bs-parent="#surveyAccordion">
@@ -381,12 +379,10 @@
                 </div>
 
                 <!-- Q12 (display: ข้อ 11) - ยุทธศาสตร์ที่ 7: นวัตกรรมที่ใช้จริง -->
-                <div class="accordion-item border-start border-4" style="border-color: #6f42c1 !important;">
+                <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#colQ12">
-                            <span class="badge text-white me-2" style="background:#6f42c1;">ข้อ 11</span>
-                            <span class="badge bg-secondary me-2 small">ยุทธ์ 7</span>
-                            จำนวนนวัตกรรมที่ใช้จริง (5 ด้าน)
+                            <span class="badge bg-gold text-dark me-2">ข้อ 11</span> จำนวนนวัตกรรมที่ใช้จริง (5 ด้าน)
                         </button>
                     </h2>
                     <div id="colQ12" class="accordion-collapse collapse" data-bs-parent="#surveyAccordion">
