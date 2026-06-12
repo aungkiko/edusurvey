@@ -6,7 +6,7 @@
             <div class="col-lg-8 text-center">
                 <h1 class="hero-title animate-fade-in">
                     <i class="bi bi-clipboard-data me-2"></i>
-                    แบบสอบถามตัวชี้วัด
+                    แบบสำรวจตามตัวชี้วัด
                 </h1>
                 <p class="hero-subtitle animate-fade-in-delay">
                     <?= APP_SUBTITLE ?>
@@ -33,7 +33,7 @@
                     
                     <div class="instruction-text px-md-4" style="font-size: 1.1rem; line-height: 1.8;">
                         <p class="mb-4 text-indent" style="text-indent: 2rem;">
-                            แบบสอบถามนี้จัดทำขึ้นเพื่อสำรวจและประเมินผลการดำเนินงานตามตัวชี้วัดแผนพัฒนาการศึกษาจังหวัดปัตตานี พ.ศ. 2569–2573 ของสำนักงานศึกษาธิการจังหวัดปัตตานี ข้อมูลและความคิดเห็นของท่านจะมีคุณค่าอย่างยิ่งในการวิเคราะห์สภาพการดำเนินงาน รับทราบปัญหาและอุปสรรค ตลอดจนนำผลที่ได้ไปใช้เป็นแนวทางในการพัฒนา ปรับปรุง และยกระดับคุณภาพการศึกษาในจังหวัดปัตตานีให้มีประสิทธิภาพสูงสุด
+                            แบบสำรวจนี้จัดทำขึ้นเพื่อสำรวจและประเมินผลการดำเนินงานตามตัวชี้วัดแผนพัฒนาการศึกษาจังหวัดปัตตานี ฉบับทบทวน พ.ศ. 2569–2573 ของสำนักงานศึกษาธิการจังหวัดปัตตานี ข้อมูลและความคิดเห็นของท่านจะมีคุณค่าอย่างยิ่งในการวิเคราะห์สภาพการดำเนินงาน รับทราบปัญหาและอุปสรรค ตลอดจนนำผลที่ได้ไปใช้เป็นแนวทางในการพัฒนา ปรับปรุง และยกระดับคุณภาพการศึกษาในจังหวัดปัตตานีให้มีประสิทธิภาพสูงสุด
                         </p>
                         <p class="mb-4 text-indent" style="text-indent: 2rem;">
                             <i class="bi bi-shield-lock-fill text-success me-2"></i>ข้อมูลส่วนบุคคลของท่านจะถูกเก็บรักษาไว้เป็นความลับ และนำเสนอผลในภาพรวมเพื่อประโยชน์ทางวิชาการและการบริหารจัดการศึกษาเท่านั้น
@@ -41,9 +41,15 @@
                     </div>
                     
                     <div class="text-center mt-5">
+                        <?php if ($survey_is_open ?? true): ?>
                         <button type="button" id="startSurveyBtn" class="btn btn-primary btn-lg px-5 py-3 shadow-sm" style="border-radius: 50px; font-weight: bold; font-size: 1.2rem;">
-                            เริ่มตอบแบบสอบถาม <i class="bi bi-arrow-right-circle ms-2"></i>
+                            เริ่มตอบแบบสำรวจ <i class="bi bi-arrow-right-circle ms-2"></i>
                         </button>
+                        <?php else: ?>
+                        <div class="alert alert-danger d-inline-block px-5 py-3 shadow-sm rounded-pill fw-bold" style="font-size: 1.2rem; border-left: none;">
+                            <i class="bi bi-x-circle-fill me-2"></i> ขณะนี้ระบบได้ปิดรับคำตอบแบบสำรวจแล้ว
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 

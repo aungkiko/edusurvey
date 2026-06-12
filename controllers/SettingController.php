@@ -67,6 +67,7 @@ class SettingController extends Controller
         $settings = $this->getSettings();
         $settings['year_start'] = $yearStart;
         $settings['year_end'] = $yearEnd;
+        $settings['survey_is_open'] = isset($_POST['survey_is_open']) && $_POST['survey_is_open'] === '1';
 
         $saveSettingsSuccess = file_put_contents($this->settingsFile, json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         
@@ -100,7 +101,8 @@ class SettingController extends Controller
         }
         return [
             'year_start' => YEAR_START,
-            'year_end' => YEAR_END
+            'year_end' => YEAR_END,
+            'survey_is_open' => SURVEY_IS_OPEN
         ];
     }
 }

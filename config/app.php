@@ -8,8 +8,8 @@
 
 // --- App Settings ---
 define('APP_NAME', 'EduSurvey');
-define('APP_FULL_NAME', 'ระบบแบบสอบถามตัวชี้วัดแผนพัฒนาการศึกษาจังหวัดปัตตานี');
-define('APP_SUBTITLE', 'แผนพัฒนาการศึกษาจังหวัดปัตตานี พ.ศ. 2569-2573');
+define('APP_FULL_NAME', 'ระบบแบบสำรวจตามตัวชี้วัดแผนพัฒนาการศึกษาจังหวัดปัตตานี');
+define('APP_SUBTITLE', 'แผนพัฒนาการศึกษาจังหวัดปัตตานี ฉบับทบทวน พ.ศ. 2569-2573');
 define('APP_VERSION', '1.0.0');
 
 // --- ช่วงปีที่จัดเก็บข้อมูล (โหลดจาก settings.json) ---
@@ -22,6 +22,7 @@ if (file_exists($settingsFile)) {
 
 define('YEAR_START', isset($appSettings['year_start']) ? (int)$appSettings['year_start'] : 2569);
 define('YEAR_END', isset($appSettings['year_end']) ? (int)$appSettings['year_end'] : 2573);
+define('SURVEY_IS_OPEN', isset($appSettings['survey_is_open']) ? (bool)$appSettings['survey_is_open'] : true);
 
 // --- Pagination ---
 define('PER_PAGE', 15);

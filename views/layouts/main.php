@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ระบบแบบสอบถามตัวชี้วัดแผนพัฒนาการศึกษาจังหวัดปัตตานี พ.ศ. 2569-2573">
+    <meta name="description" content="ระบบแบบสำรวจตามตัวชี้วัดแผนพัฒนาการศึกษาจังหวัดปัตตานี ฉบับทบทวน พ.ศ. 2569-2573">
     <meta name="author" content="สำนักงานศึกษาธิการจังหวัดปัตตานี">
     <title><?= htmlspecialchars($title ?? 'หน้าแรก') ?> | <?= APP_NAME ?></title>
     

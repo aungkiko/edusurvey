@@ -14,8 +14,8 @@
             <div class="col-lg-6">
                 <div class="card border-0 shadow-sm rounded-4 animate-fade-in h-100">
                     <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
-                        <h5 class="card-title mb-0">ตั้งค่าปีงบประมาณ</h5>
-                        <p class="text-muted small mt-1">กำหนดช่วงปีงบประมาณ (พ.ศ.) ที่ให้ผู้ใช้สามารถเลือกตอบแบบสอบถามได้</p>
+                        <h5 class="card-title mb-0">ตั้งค่าสถานะและปีงบประมาณ</h5>
+                        <p class="text-muted small mt-1">กำหนดสถานะการเปิดรับคำตอบและช่วงปีงบประมาณ (พ.ศ.)</p>
                     </div>
                     <div class="card-body p-4">
                         <div class="row g-3">
@@ -44,6 +44,30 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="col-12 mt-4 pt-3 border-top">
+                                <label class="form-label fw-medium d-block">สถานะการรับคำตอบแบบสำรวจ</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="survey_is_open" name="survey_is_open" value="1" <?= (isset($settings['survey_is_open']) && $settings['survey_is_open'] === false) ? '' : 'checked' ?> style="width: 3em; height: 1.5em; cursor: pointer;">
+                                    <label class="form-check-label ms-3 mt-1 fw-bold text-<?= (isset($settings['survey_is_open']) && $settings['survey_is_open'] === false) ? 'danger' : 'success' ?>" for="survey_is_open" style="cursor: pointer;">
+                                        <?= (isset($settings['survey_is_open']) && $settings['survey_is_open'] === false) ? 'ปิดรับคำตอบ' : 'เปิดรับคำตอบ' ?>
+                                    </label>
+                                </div>
+                                <div class="form-text mt-2">หากปิดรับคำตอบ ผู้ใช้จะไม่สามารถส่งแบบสำรวจได้ และจะแสดงข้อความแจ้งเตือนที่หน้าแรก</div>
+                            </div>
+                            
+                            <script>
+                            document.getElementById('survey_is_open').addEventListener('change', function() {
+                                var label = document.querySelector('label[for="survey_is_open"]');
+                                if (this.checked) {
+                                    label.textContent = 'เปิดรับคำตอบ';
+                                    label.className = 'form-check-label ms-3 mt-1 fw-bold text-success';
+                                } else {
+                                    label.textContent = 'ปิดรับคำตอบ';
+                                    label.className = 'form-check-label ms-3 mt-1 fw-bold text-danger';
+                                }
+                            });
+                            </script>
                         </div>
                     </div>
                 </div>

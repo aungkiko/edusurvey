@@ -26,11 +26,12 @@ class HomeController extends Controller
         $questions = $this->questionModel->getGroupedByStrategy();
         
         $data = [
-            'title' => 'แบบสอบถามตัวชี้วัดแผนพัฒนาการศึกษา',
+            'title' => 'แบบสำรวจตามตัวชี้วัดแผนพัฒนาการศึกษา',
             'questions' => $questions,
             'affiliations' => AFFILIATIONS,
             'districts' => DISTRICTS,
             'years' => range(YEAR_START, YEAR_END),
+            'survey_is_open' => SURVEY_IS_OPEN,
             'flash' => $this->getFlash(),
         ];
         
@@ -42,6 +43,12 @@ class HomeController extends Controller
      */
     public function submit(): void
     {
+        if (!SURVEY_IS_OPEN) {
+            Session::flash('error', 'ขณะนี้ระบบได้ปิดรับคำตอบแบบสำรวจแล้ว');
+            $this->redirect('');
+            return;
+        }
+        
         if (!$this->isPost()) {
             $this->redirect('');
             return;
